@@ -2,6 +2,8 @@ FROM php:7.1.11-apache-jessie
 RUN set -e; \
   BUILD_PACKAGES="libzip-dev libssh2-1-dev unixodbc-dev"; \
   DEPS_PACKAGES="msodbcsql"; \
+  apt-get update; \
+  apt-get install -y apt-transport-https; \
   curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -; \
   curl https://packages.microsoft.com/config/debian/8/prod.list > /etc/apt/sources.list.d/mssql-release.list; \
   a2enmod headers proxy proxy_http ssl rewrite; \
@@ -22,3 +24,4 @@ RUN set -e; \
   docker-php-ext-enable ssh2 pdo_sqlsrv sqlsrv; \
   apt-get remove --purge -y $BUILD_PACKAGES && rm -rf /var/lib/apt/lists/*; \
   apt-get clean;
+  
