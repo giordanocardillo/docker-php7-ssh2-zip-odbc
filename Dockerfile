@@ -6,8 +6,8 @@ RUN set -e; \
   apt-get install -y apt-transport-https; \
   curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -; \
   curl https://packages.microsoft.com/config/debian/8/prod.list > /etc/apt/sources.list.d/mssql-release.list; \
-  a2enmod headers proxy proxy_http ssl rewrite; \
-  a2dismod mpm_event mpm_prefork; \
+  a2enmod headers proxy proxy_http ssl rewrite mpm_prefork; \
+  a2dismod mpm_event; \
   apt-get update; \
   ACCEPT_EULA=Y apt-get install -y $BUILD_PACKAGES $DEPS_PACKAGES; \
   set +e; \
