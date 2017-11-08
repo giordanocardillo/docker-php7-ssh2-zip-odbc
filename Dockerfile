@@ -1,15 +1,16 @@
 FROM php:7.1.11-apache-jessie
 RUN set -e; \
   BUILD_PACKAGES="libzip-dev libssh2-1-dev unixodbc-dev"; \
-  DEPS_PACKAGES="msodbcsql"; \
-  apt-get update; \
-  apt-get install -y apt-transport-https; \
+  DEPS_PACKAGES="apt-transport-https locales"; \
+  apt-get install -y $DEPS_PACKAGES; \
+  echo "en_US.UTF-8 UTF-8" > /etc/locale.gen; \ 
+  locale-gen; \
   curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -; \
   curl https://packages.microsoft.com/config/debian/8/prod.list > /etc/apt/sources.list.d/mssql-release.list; \
   a2enmod headers proxy proxy_http ssl rewrite mpm_prefork; \
   a2dismod mpm_event; \
   apt-get update; \
-  ACCEPT_EULA=Y apt-get install -y $BUILD_PACKAGES $DEPS_PACKAGES; \
+  ACCEPT_EULA=Y apt-get install -y $BUILD_PACKAGES msodbcsql; \
   set +e; \
   docker-php-ext-install odbc; \
   set -e; \
