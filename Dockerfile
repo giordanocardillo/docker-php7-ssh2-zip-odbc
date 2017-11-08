@@ -2,6 +2,7 @@ FROM php:7.1.11-apache-jessie
 RUN set -e; \
   BUILD_PACKAGES="libzip-dev libssh2-1-dev unixodbc-dev"; \
   DEPS_PACKAGES="apt-transport-https locales"; \
+  apt-get update; \
   apt-get install -y $DEPS_PACKAGES; \
   echo "en_US.UTF-8 UTF-8" > /etc/locale.gen; \ 
   locale-gen; \
